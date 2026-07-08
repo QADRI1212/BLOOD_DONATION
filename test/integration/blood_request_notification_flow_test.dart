@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: library_private_types_in_public_api
 //
 // Integration test: Blood Request Creation → Notification Pipeline
 //

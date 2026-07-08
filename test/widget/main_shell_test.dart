@@ -80,16 +80,8 @@ Future<void> withMainShell(
       splitScreenMode: true,
       builder: (context, child) => ProviderScope(
         overrides: [
-          authProvider.overrideWithProvider(
-            StateNotifierProvider<AuthNotifier, AsyncValue<UserProfile?>>(
-              (ref) => mockAuth,
-            ),
-          ),
-          unreadCountProvider.overrideWithProvider(
-            FutureProvider.family<int, String>(
-              (ref, userId) async => unreadCount,
-            ),
-          ),
+          authProvider.overrideWith((ref) => mockAuth),
+          unreadCountProvider.overrideWith((ref, userId) async => unreadCount),
         ],
         child: MaterialApp.router(routerConfig: goRouter),
       ),
