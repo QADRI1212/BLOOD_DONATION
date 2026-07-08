@@ -21,7 +21,8 @@ class CreateRequestScreen extends ConsumerStatefulWidget {
   const CreateRequestScreen({super.key});
 
   @override
-  ConsumerState<CreateRequestScreen> createState() => _CreateRequestScreenState();
+  ConsumerState<CreateRequestScreen> createState() =>
+      _CreateRequestScreenState();
 }
 
 class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
@@ -43,7 +44,16 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
   Hospital? _selectedHospital;
   bool _useManualAddress = false;
 
-  final List<String> _bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  final List<String> _bloodGroups = [
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+  ];
 
   Future<void> _loadLocation() async {
     _locationLoaded = true;
@@ -77,7 +87,14 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
     if (user == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(LocalizationService.tr('youMustBeSignedIn', ref.read(localeProvider)))),
+          SnackBar(
+            content: Text(
+              LocalizationService.tr(
+                'youMustBeSignedIn',
+                ref.read(localeProvider),
+              ),
+            ),
+          ),
         );
       }
       setState(() => _isSubmitting = false);
@@ -91,7 +108,9 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
       bloodGroup: _selectedBloodGroup ?? '',
       units: int.tryParse(_unitsController.text) ?? 1,
       priority: _selectedPriority,
-      notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+      notes: _notesController.text.trim().isEmpty
+          ? null
+          : _notesController.text.trim(),
       latitude: _latitude,
       longitude: _longitude,
       status: 'pending',
@@ -100,11 +119,13 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
       hospitalId: _selectedHospital?.id,
       hospitalName: _selectedHospital?.name,
       address: _useManualAddress
-          ? (_addressController.text.trim().isEmpty ? null : _addressController.text.trim())
+          ? (_addressController.text.trim().isEmpty
+                ? null
+                : _addressController.text.trim())
           : (_selectedHospital?.address ??
-              (_addressController.text.trim().isNotEmpty
-                  ? _addressController.text.trim()
-                  : null)),
+                (_addressController.text.trim().isNotEmpty
+                    ? _addressController.text.trim()
+                    : null)),
     );
 
     try {
@@ -113,7 +134,12 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(LocalizationService.tr('requestSubmitted', ref.read(localeProvider))),
+            content: Text(
+              LocalizationService.tr(
+                'requestSubmitted',
+                ref.read(localeProvider),
+              ),
+            ),
             behavior: SnackBarBehavior.floating,
             backgroundColor: AppColors.success,
           ),
@@ -147,7 +173,9 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
     );
 
     return Scaffold(
-      appBar: CustomAppBar(title: LocalizationService.tr('createBloodRequest', currentLocale)),
+      appBar: CustomAppBar(
+        title: LocalizationService.tr('createBloodRequest', currentLocale),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -155,11 +183,16 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(LocalizationService.tr('emergencyBloodRequest', currentLocale), style: AppTypography.displaySmall),
+              Text(
+                LocalizationService.tr('emergencyBloodRequest', currentLocale),
+                style: AppTypography.displaySmall,
+              ),
               const SizedBox(height: 8),
               Text(
                 LocalizationService.tr('fillDetailsToRequest', currentLocale),
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.grey500),
+                style: AppTypography.bodyMedium.copyWith(
+                  color: AppColors.grey500,
+                ),
               ),
               const SizedBox(height: 8),
               // Location indicator
@@ -177,8 +210,14 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                   const SizedBox(width: 6),
                   Text(
                     _locationLoaded && _latitude != 0.0
-                        ? LocalizationService.tr('locationDetected', currentLocale)
-                        : LocalizationService.tr('detectingLocation', currentLocale),
+                        ? LocalizationService.tr(
+                            'locationDetected',
+                            currentLocale,
+                          )
+                        : LocalizationService.tr(
+                            'detectingLocation',
+                            currentLocale,
+                          ),
                     style: AppTypography.bodySmall.copyWith(
                       color: _locationLoaded && _latitude != 0.0
                           ? AppColors.success
@@ -190,27 +229,42 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
               const SizedBox(height: 24),
 
               // Blood Group
-              Text(LocalizationService.tr('bloodGroupRequired', currentLocale), style: AppTypography.titleMedium),
+              Text(
+                LocalizationService.tr('bloodGroupRequired', currentLocale),
+                style: AppTypography.titleMedium,
+              ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 isExpanded: true,
                 initialValue: _selectedBloodGroup,
                 decoration: InputDecoration(
-                  labelText: LocalizationService.tr('selectBloodGroup', currentLocale),
+                  labelText: LocalizationService.tr(
+                    'selectBloodGroup',
+                    currentLocale,
+                  ),
                   prefixIcon: Icon(Icons.bloodtype_outlined),
                 ),
                 items: _bloodGroups.map((bg) {
                   return DropdownMenuItem(value: bg, child: Text(bg));
                 }).toList(),
-                onChanged: (value) => setState(() => _selectedBloodGroup = value),
-                validator: (value) => value == null ? LocalizationService.tr('pleaseSelectBloodGroup', currentLocale) : null,
+                onChanged: (value) =>
+                    setState(() => _selectedBloodGroup = value),
+                validator: (value) => value == null
+                    ? LocalizationService.tr(
+                        'pleaseSelectBloodGroup',
+                        currentLocale,
+                      )
+                    : null,
               ),
               const SizedBox(height: 16),
 
               // Units
               AppTextField(
                 controller: _unitsController,
-                label: LocalizationService.tr('unitsRequired', currentLocale).replaceAll('{units}', '1'),
+                label: LocalizationService.tr(
+                  'unitsRequired',
+                  currentLocale,
+                ).replaceAll('{units}', '1'),
                 hint: LocalizationService.tr('numberOfUnits', currentLocale),
                 keyboardType: TextInputType.number,
                 prefixIcon: Icons.format_list_numbered_rounded,
@@ -218,7 +272,10 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
               const SizedBox(height: 16),
 
               // Priority
-              Text(LocalizationService.tr('priorityLevel', currentLocale), style: AppTypography.titleMedium),
+              Text(
+                LocalizationService.tr('priorityLevel', currentLocale),
+                style: AppTypography.titleMedium,
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -250,7 +307,10 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
               const SizedBox(height: 16),
 
               // ── Hospital Selector ──
-              Text(LocalizationService.tr('hospital', currentLocale), style: AppTypography.titleMedium),
+              Text(
+                LocalizationService.tr('hospital', currentLocale),
+                style: AppTypography.titleMedium,
+              ),
               const SizedBox(height: 8),
               hospitalsAsync.when(
                 data: (hospitals) {
@@ -266,12 +326,18 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.info_rounded, size: 18, color: AppColors.warning),
+                              Icon(
+                                Icons.info_rounded,
+                                size: 18,
+                                color: AppColors.warning,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'No hospitals found. You can enter an address manually.',
-                                  style: AppTypography.bodySmall.copyWith(color: AppColors.warning),
+                                  style: AppTypography.bodySmall.copyWith(
+                                    color: AppColors.warning,
+                                  ),
                                 ),
                               ),
                             ],
@@ -294,26 +360,51 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                               ListTile(
                                 dense: true,
                                 contentPadding: EdgeInsets.zero,
-                                leading: Icon(Icons.edit_location_rounded, color: AppColors.grey500),
-                                title: Text('Enter address manually',
-                                    style: AppTypography.bodyMedium.copyWith(color: AppColors.grey600)),
-                                onTap: () => setState(() => _useManualAddress = true),
+                                leading: Icon(
+                                  Icons.edit_location_rounded,
+                                  color: AppColors.grey500,
+                                ),
+                                title: Text(
+                                  'Enter address manually',
+                                  style: AppTypography.bodyMedium.copyWith(
+                                    color: AppColors.grey600,
+                                  ),
+                                ),
+                                onTap: () =>
+                                    setState(() => _useManualAddress = true),
                               ),
                               const Divider(height: 1),
-                              ...hospitals.map((h) => ListTile(
-                                dense: true,
-                                contentPadding: EdgeInsets.zero,
-                                leading: Icon(
-                                  Icons.local_hospital_rounded,
-                                  color: AppColors.primary,
+                              ...hospitals.map(
+                                (h) => ListTile(
+                                  dense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Icon(
+                                    Icons.local_hospital_rounded,
+                                    color: AppColors.primary,
+                                  ),
+                                  title: Text(
+                                    h.name,
+                                    style: AppTypography.bodyMedium.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  subtitle: h.address != null
+                                      ? Text(
+                                          h.address!,
+                                          style: AppTypography.bodySmall
+                                              .copyWith(
+                                                color: AppColors.grey500,
+                                              ),
+                                        )
+                                      : null,
+                                  trailing: Icon(
+                                    Icons.chevron_right_rounded,
+                                    color: AppColors.grey300,
+                                  ),
+                                  onTap: () =>
+                                      setState(() => _selectedHospital = h),
                                 ),
-                                title: Text(h.name, style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w500)),
-                                subtitle: h.address != null
-                                    ? Text(h.address!, style: AppTypography.bodySmall.copyWith(color: AppColors.grey500))
-                                    : null,
-                                trailing: Icon(Icons.chevron_right_rounded, color: AppColors.grey300),
-                                onTap: () => setState(() => _selectedHospital = h),
-                              )),
+                              ),
                             ],
                           ),
                         ),
@@ -325,35 +416,62 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                 },
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  ),
                 ),
-                error: (_, __) => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
               ),
 
               // Selected hospital chip or manual address input
               if (_selectedHospital != null)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primaryContainer,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.local_hospital_rounded, size: 18, color: AppColors.primary),
+                      Icon(
+                        Icons.local_hospital_rounded,
+                        size: 18,
+                        color: AppColors.primary,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(_selectedHospital!.name, style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
+                            Text(
+                              _selectedHospital!.name,
+                              style: AppTypography.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                             if (_selectedHospital!.address != null)
-                              Text(_selectedHospital!.address!, style: AppTypography.bodySmall.copyWith(color: AppColors.grey500)),
+                              Text(
+                                _selectedHospital!.address!,
+                                style: AppTypography.bodySmall.copyWith(
+                                  color: AppColors.grey500,
+                                ),
+                              ),
                           ],
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.close, size: 18, color: AppColors.grey400),
+                        icon: Icon(
+                          Icons.close,
+                          size: 18,
+                          color: AppColors.grey400,
+                        ),
                         onPressed: () => setState(() {
                           _selectedHospital = null;
                           _useManualAddress = false;
@@ -384,7 +502,10 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
               AppTextField(
                 controller: _notesController,
                 label: LocalizationService.tr('additionalNotes', currentLocale),
-                hint: LocalizationService.tr('specificRequirements', currentLocale),
+                hint: LocalizationService.tr(
+                  'specificRequirements',
+                  currentLocale,
+                ),
                 isMultiline: true,
                 maxLines: 3,
                 prefixIcon: Icons.notes_rounded,
@@ -438,7 +559,11 @@ class _PriorityOption extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Icon(icon, color: isSelected ? color : AppColors.grey400, size: 24),
+              Icon(
+                icon,
+                color: isSelected ? color : AppColors.grey400,
+                size: 24,
+              ),
               const SizedBox(height: 4),
               Text(
                 label,

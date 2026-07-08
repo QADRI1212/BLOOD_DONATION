@@ -10,9 +10,7 @@ Future<void> pumpHospitalCard(WidgetTester tester, Widget cardWidget) async {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      useInheritedMediaQuery: true,
       builder: (context, _) => MaterialApp(
-        useInheritedMediaQuery: true,
         home: Scaffold(
           body: SingleChildScrollView(
             child: cardWidget,

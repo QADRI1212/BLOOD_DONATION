@@ -47,26 +47,26 @@ Future<void> withMainShell(
         routes: [
           GoRoute(
             path: '/',
-            builder: (_, __) => const Scaffold(
+            builder: (context, state) => const Scaffold(
               body: Center(child: Text('Home Content')),
             ),
           ),
-          GoRoute(path: '/dashboard', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/requests', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/donors', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/hospitals', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/notifications', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/profile', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/settings', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/patient', builder: (_, __) => const Scaffold()),
-          GoRoute(path: '/admin', builder: (_, __) => const Scaffold()),
+          GoRoute(path: '/dashboard', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/requests', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/donors', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/hospitals', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/notifications', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/profile', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/settings', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/patient', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/admin', builder: (context, state) => const Scaffold()),
           GoRoute(
             path: '/hospital-dashboard',
-            builder: (_, __) => const Scaffold(),
+            builder: (context, state) => const Scaffold(),
           ),
           GoRoute(
             path: '/blood-bank',
-            builder: (_, __) => const Scaffold(),
+            builder: (context, state) => const Scaffold(),
           ),
         ],
       ),
