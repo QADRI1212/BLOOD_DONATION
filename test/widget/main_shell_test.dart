@@ -104,7 +104,7 @@ void main() {
       expect(find.text('Dashboard'), findsOneWidget);
       expect(find.text('Requests'), findsOneWidget);
       expect(find.text('Hospitals'), findsOneWidget);
-      expect(find.text('Notifications'), findsOneWidget);
+      expect(find.text('Profile'), findsOneWidget);
     });
 
     testWidgets('shows Requests tab for donor role', (tester) async {
@@ -166,7 +166,7 @@ void main() {
       await withMainShell(tester, body: (_) {});
 
       expect(find.text('Dashboard'), findsOneWidget);
-      expect(find.text('Notifications'), findsOneWidget);
+      expect(find.text('Profile'), findsOneWidget);
     });
 
     testWidgets('shows Donors tab for patient role', (tester) async {
