@@ -47,27 +47,23 @@ Future<void> withMainShell(
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Home Content')),
-            ),
+            builder: (_, _) =>
+                const Scaffold(body: Center(child: Text('Home Content'))),
           ),
-          GoRoute(path: '/dashboard', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/requests', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/donors', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/hospitals', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/notifications', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/profile', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/settings', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/patient', builder: (context, state) => const Scaffold()),
-          GoRoute(path: '/admin', builder: (context, state) => const Scaffold()),
+          GoRoute(path: '/dashboard', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/requests', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/donors', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/hospitals', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/notifications', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/profile', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/patient', builder: (_, _) => const Scaffold()),
+          GoRoute(path: '/admin', builder: (_, _) => const Scaffold()),
           GoRoute(
             path: '/hospital-dashboard',
-            builder: (context, state) => const Scaffold(),
+            builder: (_, _) => const Scaffold(),
           ),
-          GoRoute(
-            path: '/blood-bank',
-            builder: (context, state) => const Scaffold(),
-          ),
+          GoRoute(path: '/blood-bank', builder: (_, _) => const Scaffold()),
         ],
       ),
     ],
@@ -98,9 +94,12 @@ void main() {
   group('MainShell with notification badge', () {
     testWidgets('renders bottom navigation with correct tabs', (tester) async {
       final user = createTestUser();
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      });
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+      );
 
       expect(find.text('Dashboard'), findsOneWidget);
       expect(find.text('Requests'), findsOneWidget);
@@ -110,39 +109,55 @@ void main() {
 
     testWidgets('shows Requests tab for donor role', (tester) async {
       final user = createTestUser(role: 'donor');
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      });
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+      );
 
       expect(find.text('Requests'), findsOneWidget);
     });
 
-    testWidgets('shows badge when there are unread notifications',
-        (tester) async {
+    testWidgets('shows badge when there are unread notifications', (
+      tester,
+    ) async {
       final user = createTestUser();
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      }, unreadCount: 5);
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+        unreadCount: 5,
+      );
 
       expect(find.text('5'), findsOneWidget);
     });
 
-    testWidgets('does not show badge when unread count is 0',
-        (tester) async {
+    testWidgets('does not show badge when unread count is 0', (tester) async {
       final user = createTestUser();
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      }, unreadCount: 0);
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+        unreadCount: 0,
+      );
 
       expect(find.text('0'), findsNothing);
     });
 
-    testWidgets('shows truncated badge count for 10+ notifications',
-        (tester) async {
+    testWidgets('shows truncated badge count for 10+ notifications', (
+      tester,
+    ) async {
       final user = createTestUser();
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      }, unreadCount: 10);
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+        unreadCount: 10,
+      );
 
       expect(find.text('9+'), findsOneWidget);
     });
@@ -156,9 +171,12 @@ void main() {
 
     testWidgets('shows Donors tab for patient role', (tester) async {
       final user = createTestUser(role: 'patient');
-      await withMainShell(tester, body: (mockAuth) {
-        mockAuth.state = AsyncValue.data(user);
-      });
+      await withMainShell(
+        tester,
+        body: (mockAuth) {
+          mockAuth.state = AsyncValue.data(user);
+        },
+      );
 
       expect(find.text('Donors'), findsOneWidget);
     });
