@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <circle cx="100" cy="80" r="40" fill="#E5E7EB" />
+  <circle cx="100" cy="80" r="35" fill="#F3F4F6" />
+  <!-- Person silhouette -->
+  <circle cx="100" cy="70" r="18" fill="#D1D5DB" />
+  <ellipse cx="100" cy="120" rx="30" ry="20" fill="#D1D5DB" />
+  <!-- Search icon -->
+  <circle cx="140" cy="140" r="12" fill="none" stroke="#9CA3AF" stroke-width="2" />
+  <line x1="148" y1="148" x2="158" y2="158" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" />
+  <!-- Cross on person (no donors) -->
+  <line x1="85" y1="55" x2="115" y2="85" stroke="#EF4444" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+  <line x1="115" y1="55" x2="85" y2="85" stroke="#EF4444" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+</svg>

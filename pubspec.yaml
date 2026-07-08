@@ -1,0 +1,82 @@
+name: blood_donation
+description: "Smart Blood & Emergency Donor Network"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Routing
+  go_router: ^14.8.1
+
+  # Backend
+  supabase_flutter: ^2.8.3
+
+  # Firebase
+  firebase_core: ^3.12.1
+  firebase_messaging: ^15.2.4
+  firebase_crashlytics: ^4.3.4
+  firebase_analytics: ^11.4.4
+
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Maps & Location
+  flutter_map: ^7.0.2
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  latlong2: ^0.9.1
+
+  # UI & Animations
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.17
+  lottie: ^3.3.1
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+  cupertino_icons: ^1.0.8
+
+  # Utilities
+  shared_preferences: ^2.3.4
+  logger: ^2.5.0
+  flutter_dotenv: ^5.2.1
+  connectivity_plus: ^6.1.4
+  flutter_local_notifications: ^18.0.1
+  intl: ^0.20.2
+  equatable: ^2.0.7
+  uuid: ^4.5.1
+  url_launcher: ^6.3.1
+  flutter_secure_storage: ^10.3.1
+  freezed_annotation: any
+  json_annotation: any
+  riverpod_annotation: any
+  flutter_screenutil: ^5.9.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: any
+  freezed: any
+  json_serializable: any
+  riverpod_generator: any
+  custom_lint: any
+  riverpod_lint: any
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/lottie/
+    - assets/svg/
