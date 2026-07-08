@@ -36,16 +36,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              AppColors.primary,
-              AppColors.primaryDark,
-            ],
+            colors: [AppColors.primary, AppColors.primaryDark],
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Lottie pulse animation
+            // Lottie wave animation behind logo
             SizedBox(
               width: 200,
               height: 120,
@@ -56,13 +53,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 repeat: true,
               ),
             ),
-            const SizedBox(height: 8),
             // SVG logo
-            SvgPicture.asset(
-              'assets/svg/logo.svg',
-              width: 280,
-              height: 100,
-            ),
+            SvgPicture.asset('assets/svg/logo.svg', width: 280, height: 100),
             const SizedBox(height: 48),
             SizedBox(
               width: 30,
