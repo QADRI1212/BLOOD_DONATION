@@ -7,16 +7,30 @@ import '../../../shared/models/blood_request.dart';
 import '../../../shared/providers/locale_provider.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/shimmer_loading.dart';
-import '../providers/admin_provider.dart';
 import '../../../shared/widgets/custom_appbar.dart';
+import '../../../features/blood_requests/providers/blood_request_provider.dart';
+import '../providers/admin_provider.dart';
 
-class AdminRequestsScreen extends ConsumerWidget {
+class AdminRequestsScreen extends ConsumerStatefulWidget {
   const AdminRequestsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminRequestsScreen> createState() => _AdminRequestsScreenState();
+}
+
+class _AdminRequestsScreenState extends ConsumerState<AdminRequestsScreen> {
+  @override
+  Widget build(BuildContext context) {
     final requestsAsync = ref.watch(adminRequestsProvider(null));
     final currentLocale = ref.watch(localeProvider);
+
+    // Listen for real-time blood request changes and auto-refresh the list
+    ref.listen(realtimeRequestsProvider, (_, next) {
+      next.whenOrNull(data: (_) {
+        if (!mounted) return;
+        ref.invalidate(adminRequestsProvider(null));
+      });
+    });
 
     return Scaffold(
       appBar: CustomAppBar(title: LocalizationService.tr('manageRequestsTitle', currentLocale)),

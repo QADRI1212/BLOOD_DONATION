@@ -58,24 +58,36 @@ create policy "Hospital managers can insert hospitals"
   );
 
 -- ================================================================
--- 5. RLS: Authenticated users can insert blood banks
+-- 5. RLS: Hospital managers can insert blood banks
 -- ================================================================
+drop policy if exists "Hospital managers can insert blood banks" on public.blood_banks;
+
 drop policy if exists "Authenticated users can insert blood banks" on public.blood_banks;
 
-create policy "Authenticated users can insert blood banks"
+create policy "Hospital managers can insert blood banks"
   on public.blood_banks for insert
-  to authenticated
-  with check (true);
+  with check (
+    exists (
+      select 1 from public.profiles
+      where id = auth.uid() and role = 'hospital'
+    )
+  );
 
 -- ================================================================
--- 6. RLS: Authenticated users can update blood banks
+-- 6. RLS: Hospital managers can update blood banks
 -- ================================================================
+drop policy if exists "Hospital managers can update blood banks" on public.blood_banks;
+
 drop policy if exists "Authenticated users can update blood banks" on public.blood_banks;
 
-create policy "Authenticated users can update blood banks"
+create policy "Hospital managers can update blood banks"
   on public.blood_banks for update
-  to authenticated
-  using (true);
+  using (
+    exists (
+      select 1 from public.profiles
+      where id = auth.uid() and role = 'hospital'
+    )
+  );
 
 -- ================================================================
 -- 7. RLS: Admins can manage blood banks (full CRUD)

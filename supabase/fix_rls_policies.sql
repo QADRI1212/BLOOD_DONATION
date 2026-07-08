@@ -14,17 +14,19 @@ create policy "Hospital managers can insert hospitals"
 -- 2. Allow hospital-role users to update/delete their own hospitals (optional)
 -- (Currently hospitals don't have a manager_id field, so this is scoped to any hospital-role user)
 
--- 3. Add insert policy for blood_banks (currently missing - only has select)
-create policy "Authenticated users can insert blood banks"
+-- 3. Allow hospital-role users to insert blood banks (same as hospital policy)
+create policy "Hospital managers can insert blood banks"
   on blood_banks for insert
-  to authenticated
-  with check (true);
+  with check (
+    exists (select 1 from profiles where id = auth.uid() and role = 'hospital')
+  );
 
 -- 4. Allow hospital-role users to update blood banks (optional)
-create policy "Authenticated users can update blood banks"
+create policy "Hospital managers can update blood banks"
   on blood_banks for update
-  to authenticated
-  using (true);
+  using (
+    exists (select 1 from profiles where id = auth.uid() and role = 'hospital')
+  );
 
 -- 5. Add verified column to blood_banks table (required for admin approval workflow)
 alter table blood_banks
