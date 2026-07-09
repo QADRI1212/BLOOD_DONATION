@@ -23,127 +23,143 @@ class AdminDashboardScreen extends ConsumerWidget {
         title: LocalizationService.tr('adminDashboard', currentLocale),
         showBackButton: false,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(LocalizationService.tr('adminPanelTitle', currentLocale), style: AppTypography.displaySmall),
-            const SizedBox(height: 4),
-            Text(LocalizationService.tr('manageNetwork', currentLocale), style: AppTypography.bodyMedium.copyWith(color: AppColors.grey500)),
-            const SizedBox(height: 16),
+      body: RefreshIndicator(
+        onRefresh: () => ref.refresh(adminStatsProvider.future),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(LocalizationService.tr('adminPanelTitle', currentLocale), style: AppTypography.displaySmall),
+              const SizedBox(height: 4),
+              Text(LocalizationService.tr('manageNetwork', currentLocale), style: AppTypography.bodyMedium.copyWith(color: AppColors.grey500)),
+              const SizedBox(height: 16),
 
-            // Stats Grid
-            statsAsync.when(
-              loading: () => const Row(
-                children: [
-                  Expanded(child: ListShimmer()),
-                  SizedBox(width: 12),
-                  Expanded(child: ListShimmer()),
-                ],
-              ),
-              error: (e, _) => Center(
-                child: Column(
+              // Stats Grid
+              statsAsync.when(
+                loading: () => const Row(
                   children: [
-                    Text(LocalizationService.tr('failedToLoadStats', currentLocale).replaceAll('{error}', '$e')),
-                    const SizedBox(height: 8),
-                    OutlinedButton(
-                      onPressed: () => ref.invalidate(adminStatsProvider),
-                      child: Text(LocalizationService.tr('retry', currentLocale)),
+                    Expanded(child: ListShimmer()),
+                    SizedBox(width: 12),
+                    Expanded(child: ListShimmer()),
+                  ],
+                ),
+                error: (e, _) => Center(
+                  child: Column(
+                    children: [
+                      Text(LocalizationService.tr('failedToLoadStats', currentLocale).replaceAll('{error}', '$e')),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () => ref.invalidate(adminStatsProvider),
+                        child: Text(LocalizationService.tr('retry', currentLocale)),
+                      ),
+                    ],
+                  ),
+                ),
+                data: (stats) => Column(
+                  children: [
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: _AdminStatCard(
+                              label: LocalizationService.tr('totalUsers', currentLocale),
+                              value: '${stats.totalUsers}',
+                              icon: Icons.people_rounded,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _AdminStatCard(
+                              label: LocalizationService.tr('activeDonors', currentLocale),
+                              value: '${stats.activeDonors}',
+                              icon: Icons.bloodtype_rounded,
+                              color: AppColors.success,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: _AdminStatCard(
+                              label: LocalizationService.tr('totalRequests', currentLocale),
+                              value: '${stats.totalRequests}',
+                              icon: Icons.assignment_rounded,
+                              color: AppColors.warning,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _AdminStatCard(
+                              label: LocalizationService.tr('totalHospitals', currentLocale),
+                              value: '${stats.totalHospitals}',
+                              icon: Icons.local_hospital_rounded,
+                              color: AppColors.info,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              data: (stats) => Column(
-                children: [
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: _AdminStatCard(
-                            label: LocalizationService.tr('totalUsers', currentLocale),
-                            value: '${stats.totalUsers}',
-                            icon: Icons.people_rounded,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _AdminStatCard(
-                            label: LocalizationService.tr('activeDonors', currentLocale),
-                            value: '${stats.activeDonors}',
-                            icon: Icons.bloodtype_rounded,
-                            color: AppColors.success,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: _AdminStatCard(
-                            label: LocalizationService.tr('totalRequests', currentLocale),
-                            value: '${stats.totalRequests}',
-                            icon: Icons.assignment_rounded,
-                            color: AppColors.warning,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _AdminStatCard(
-                            label: LocalizationService.tr('totalHospitals', currentLocale),
-                            value: '${stats.totalHospitals}',
-                            icon: Icons.local_hospital_rounded,
-                            color: AppColors.info,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Admin Actions
-            Text(LocalizationService.tr('quickActions', currentLocale), style: AppTypography.titleLarge),
-            const SizedBox(height: 8),
-            _AdminActionTile(
-              icon: Icons.people_rounded,
-              title: LocalizationService.tr('manageUsers', currentLocale),
-              subtitle: LocalizationService.tr('manageUsersDesc', currentLocale),
-              onTap: () => context.go('/admin/users'),
-            ),
-            _AdminActionTile(
-              icon: Icons.assignment_rounded,
-              title: LocalizationService.tr('manageRequests', currentLocale),
-              subtitle: LocalizationService.tr('manageRequestsDesc', currentLocale),
-              onTap: () => context.go('/admin/requests'),
-            ),
-            _AdminActionTile(
-              icon: Icons.campaign_rounded,
-              title: LocalizationService.tr('announcements', currentLocale),
-              subtitle: LocalizationService.tr('announcementsDesc', currentLocale),
-              onTap: () => context.go('/admin/announcements'),
-            ),
-            _AdminActionTile(
-              icon: Icons.checklist_rounded,
-              title: LocalizationService.tr('approvals', currentLocale),
-              subtitle: LocalizationService.tr('approvalsDesc', currentLocale),
-              onTap: () => context.go('/admin/approvals'),
-            ),
-            _AdminActionTile(
-              icon: Icons.flag_rounded,
-              title: LocalizationService.tr('reports', currentLocale),
-              subtitle: LocalizationService.tr('reportsDesc', currentLocale),
-              onTap: () => context.go('/admin/reports'),
-            ),
-          ],
+              // Admin Actions
+              Text(LocalizationService.tr('quickActions', currentLocale), style: AppTypography.titleLarge),
+              const SizedBox(height: 8),
+              _AdminActionTile(
+                icon: Icons.people_rounded,
+                title: LocalizationService.tr('manageUsers', currentLocale),
+                subtitle: LocalizationService.tr('manageUsersDesc', currentLocale),
+                onTap: () => context.go('/admin/users'),
+              ),
+              _AdminActionTile(
+                icon: Icons.assignment_rounded,
+                title: LocalizationService.tr('manageRequests', currentLocale),
+                subtitle: LocalizationService.tr('manageRequestsDesc', currentLocale),
+                onTap: () => context.go('/admin/requests'),
+              ),
+              _AdminActionTile(
+                icon: Icons.campaign_rounded,
+                title: LocalizationService.tr('announcements', currentLocale),
+                subtitle: LocalizationService.tr('announcementsDesc', currentLocale),
+                onTap: () => context.go('/admin/announcements'),
+              ),
+              _AdminActionTile(
+                icon: Icons.checklist_rounded,
+                title: LocalizationService.tr('approvals', currentLocale),
+                subtitle: LocalizationService.tr('approvalsDesc', currentLocale),
+                onTap: () => context.go('/admin/approvals'),
+              ),
+              _AdminActionTile(
+                icon: Icons.flag_rounded,
+                title: LocalizationService.tr('reports', currentLocale),
+                subtitle: LocalizationService.tr('reportsDesc', currentLocale),
+                onTap: () => context.go('/admin/reports'),
+              ),
+              _AdminActionTile(
+                icon: Icons.local_hospital_rounded,
+                title: LocalizationService.tr('manageHospitals', currentLocale),
+                subtitle: LocalizationService.tr('manageHospitalsDesc', currentLocale),
+                onTap: () => context.go('/admin/hospitals'),
+              ),
+              _AdminActionTile(
+                icon: Icons.bloodtype_rounded,
+                title: LocalizationService.tr('manageBloodBanks', currentLocale),
+                subtitle: LocalizationService.tr('manageBloodBanksDesc', currentLocale),
+                onTap: () => context.go('/admin/blood-banks'),
+              ),
+            ],
+          ),
         ),
       ),
     );

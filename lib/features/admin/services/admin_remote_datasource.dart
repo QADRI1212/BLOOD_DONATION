@@ -3,6 +3,7 @@ import '../../../core/network/supabase_client.dart';
 import '../../../core/services/logger_service.dart';
 import '../../../shared/models/user_profile.dart';
 import '../../../shared/models/blood_request.dart';
+import '../../../shared/models/donation.dart';
 import './admin_repository.dart';
 import './admin_stats_dto.dart';
 
@@ -81,6 +82,50 @@ class AdminRemoteDataSource {
       );
     } catch (e, stack) {
       _logger.error('Failed to suspend user', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<List<Donation>> getAllDonations() async {
+    try {
+      final data = await _api.query(
+        'donations',
+        orderBy: 'donation_date',
+        ascending: false,
+      );
+      return data.map((e) => Donation.fromJson(e)).toList();
+    } catch (e, stack) {
+      _logger.error('Failed to get all donations', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<List<BloodRequest>> getPendingRequests() async {
+    try {
+      final data = await _api.query(
+        'blood_requests',
+        filters: {'status': 'pending'},
+        orderBy: 'created_at',
+        ascending: false,
+      );
+      return data.map((e) => BloodRequest.fromJson(e)).toList();
+    } catch (e, stack) {
+      _logger.error('Failed to get pending requests', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<List<BloodRequest>> getAcceptedRequests() async {
+    try {
+      final data = await _api.query(
+        'blood_requests',
+        filters: {'status': 'accepted'},
+        orderBy: 'updated_at',
+        ascending: false,
+      );
+      return data.map((e) => BloodRequest.fromJson(e)).toList();
+    } catch (e, stack) {
+      _logger.error('Failed to get accepted requests', error: e, stackTrace: stack);
       rethrow;
     }
   }
@@ -209,6 +254,20 @@ class AdminRemoteDataSource {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getAllHospitals() async {
+    try {
+      final data = await _api.query(
+        'hospitals',
+        orderBy: 'created_at',
+        ascending: false,
+      );
+      return data;
+    } catch (e, stack) {
+      _logger.error('Failed to get all hospitals', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getPendingHospitals() async {
     try {
       final data = await _api.query(
@@ -220,6 +279,20 @@ class AdminRemoteDataSource {
       return data;
     } catch (e, stack) {
       _logger.error('Failed to get pending hospitals', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getAllBloodBanks() async {
+    try {
+      final data = await _api.query(
+        'blood_banks',
+        orderBy: 'created_at',
+        ascending: false,
+      );
+      return data;
+    } catch (e, stack) {
+      _logger.error('Failed to get all blood banks', error: e, stackTrace: stack);
       rethrow;
     }
   }

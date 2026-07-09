@@ -36,6 +36,8 @@ import '../../features/admin/screens/admin_requests_screen.dart';
 import '../../features/admin/screens/admin_announcements_screen.dart';
 import '../../features/admin/screens/admin_reports_screen.dart';
 import '../../features/admin/screens/admin_approvals_screen.dart';
+import '../../features/admin/screens/admin_hospitals_screen.dart';
+import '../../features/admin/screens/admin_blood_banks_screen.dart';
 
 class AppRouter {
   final AuthStateProvider authProvider;
@@ -274,6 +276,14 @@ class AppRouter {
                 GoRoute(
                   path: 'approvals',
                   builder: (context, state) => const AdminApprovalsScreen(),
+                ),
+                GoRoute(
+                  path: 'hospitals',
+                  builder: (context, state) => const AdminHospitalsScreen(),
+                ),
+                GoRoute(
+                  path: 'blood-banks',
+                  builder: (context, state) => const AdminBloodBanksScreen(),
                 ),
               ],
             ),

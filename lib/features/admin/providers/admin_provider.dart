@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/network/api_service.dart';
 import '../../../shared/models/user_profile.dart';
 import '../../../shared/models/blood_request.dart';
+import '../../../shared/models/donation.dart';
 import '../services/admin_repository.dart';
 import '../services/admin_remote_datasource.dart';
 
@@ -29,6 +30,21 @@ final adminReportsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) as
   return dataSource.getReports(status: 'pending');
 });
 
+final adminPendingRequestsProvider = FutureProvider<List<BloodRequest>>((ref) async {
+  final dataSource = ref.read(adminRemoteDataSourceProvider);
+  return dataSource.getPendingRequests();
+});
+
+final adminAcceptedRequestsProvider = FutureProvider<List<BloodRequest>>((ref) async {
+  final dataSource = ref.read(adminRemoteDataSourceProvider);
+  return dataSource.getAcceptedRequests();
+});
+
+final adminDonationsHistoryProvider = FutureProvider<List<Donation>>((ref) async {
+  final dataSource = ref.read(adminRemoteDataSourceProvider);
+  return dataSource.getAllDonations();
+});
+
 final adminPendingHospitalsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final dataSource = ref.read(adminRemoteDataSourceProvider);
   return dataSource.getPendingHospitals();
@@ -37,6 +53,16 @@ final adminPendingHospitalsProvider = FutureProvider<List<Map<String, dynamic>>>
 final adminPendingBloodBanksProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final dataSource = ref.read(adminRemoteDataSourceProvider);
   return dataSource.getPendingBloodBanks();
+});
+
+final adminAllHospitalsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final dataSource = ref.read(adminRemoteDataSourceProvider);
+  return dataSource.getAllHospitals();
+});
+
+final adminAllBloodBanksProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final dataSource = ref.read(adminRemoteDataSourceProvider);
+  return dataSource.getAllBloodBanks();
 });
 
 class AdminNotifier extends StateNotifier<AsyncValue<void>> {
