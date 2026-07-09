@@ -47,6 +47,10 @@ app.*.map.json
 # Environment variables (contains API keys)
 .env
 
+# Submission folders (separate from project source)
+/Task-3/
+/Task-2_TC-INT-20260422-001.zip
+
 # Windows reserved device names (artifacts)
 nul
 CON
