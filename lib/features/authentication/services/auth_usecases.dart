@@ -15,8 +15,9 @@ class AuthUseCases {
     required String password,
     required String name,
     String? phone,
+    String role = 'donor',
   }) {
-    return _repository.signUp(email: email, password: password, name: name, phone: phone);
+    return _repository.signUp(email: email, password: password, name: name, phone: phone, role: role);
   }
 
   Future<void> logout() => _repository.logout();

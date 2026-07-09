@@ -25,8 +25,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String name,
     String? phone,
+    String role = 'donor',
   }) async {
-    await _remoteDataSource.signUp(email: email, password: password, name: name, phone: phone);
+    await _remoteDataSource.signUp(email: email, password: password, name: name, phone: phone, role: role);
     return getCurrentProfile();
   }
 

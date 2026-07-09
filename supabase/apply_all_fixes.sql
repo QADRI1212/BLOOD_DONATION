@@ -410,7 +410,7 @@ begin
     new.id,
     coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
     new.email,
-    'donor'
+    coalesce(new.raw_user_meta_data->>'role', 'donor')
   );
   insert into public.user_settings (user_id)
   values (new.id);

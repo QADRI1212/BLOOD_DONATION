@@ -35,26 +35,25 @@ class AuthRemoteDataSource {
     required String password,
     required String name,
     String? phone,
+    String role = 'donor',
   }) async {
     try {
       final response = await _supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'name': name, 'phone': phone ?? ''},
+        data: {'name': name, 'phone': phone ?? '', 'role': role},
       );
       if (response.user == null) {
         throw const AuthenticationException('Sign up failed');
       }
-      await _supabase.client.from('profiles').insert({
-        'id': response.user!.id,
+      await _supabase.client.from('profiles').update({
         'name': name,
         'email': email,
         'phone': phone,
-        'role': 'donor',
+        'role': role,
         'is_available': false,
-        'created_at': DateTime.now().toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
-      });
+      }).eq('id', response.user!.id);
       return {
         'success': true,
         'user_id': response.user!.id,
